@@ -1,0 +1,80 @@
+﻿@model hackaton.Models.User
+@using VM = hackaton.Models.ViewModels
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/sharedStyles.css" type="text/css" />
+</head>
+
+@*Header*@
+<partial name="~/Views/Modules/partial_header.cshtml" model='new VM.VM_header { HeaderVariation=VM.VM_header.Variations.Logout}' />
+
+
+<div class="main_container">
+
+    <div class="main_card signup">
+
+        <div class="content">
+            <form asp-action="Index" style="min-width:100%">
+            <div class="leading-generic">
+                <partial name="~/Views/Modules/partial-logo-nameonly-vector.cshtml" />
+                <div class="heading">
+                    <span>Perfil de Produtor</span>
+                </div>
+                <div class="detail">
+                    <span>Visualize seus dados pessoais</span>
+                </div>
+            </div>
+            <div class="trailing">
+                <div class="inputs">
+
+                    <partial name="~/Views/Modules/partial_textbox_name_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
+
+                    <partial name="~/Views/Modules/partial_textbox_password_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
+
+@*                    <label class="input-description">Confirmar Nova Senha</label>
+                    <div class="input env" data-cluster="btn1">
+                        <div class="sub">
+                            <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/vpn_key_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
+                            <input class="textbox" data-cluster="btn1" type="password" placeholder="●●●●●●">
+                        </div>
+                        <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/visibility_off_FILL0_wght400_GRAD0_opsz48.svg" class="icon eye hide"></img>
+                    </div>*@
+
+                    <partial name="~/Views/Modules/partial_textbox_cpf_readonly.cshtml" model='new VM.VM_textbox { User = Model }' />
+
+@*                    <div class="form-group" style="min-width:100%">
+                        <input hidden class="form-control" value="CPF" asp-for="CPF"/>
+                    </div>*@
+
+                </div>
+
+                <div class="actions">
+                    <a asp-controller="Users" asp-action="" class="btn btn-primary btn-override primary-color-override"> <!--NÃO IMPLEMENTADO-->
+                        <label>Salvar Alterações</label>
+                    </a>
+                    <div asp-controller="Users" asp-action="Delete" type="submit" value="Excluir Perfil" class="btn btn-danger btn-override danger-color-override">
+                        <label>Excluir Perfil</label>
+                    </div>
+                </div>
+
+            </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script src="/js/module-textbox-focus.js"></script>
+<script src="/js/module-password-eye-visibility.js"></script>
+<script src="/js/module-home-hover.js"></script>
