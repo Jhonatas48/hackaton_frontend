@@ -7,8 +7,8 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
-build_property.RootNamespace = hackaton
-build_property.RootNamespace = hackaton
+build_property.RootNamespace = frantend_hackaton
+build_property.RootNamespace = frantend_hackaton
 build_property.ProjectDir = C:\Users\T.I\Desktop\github\hackaton_frontend\hackaton\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
@@ -202,4 +202,4 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/T.I/Desktop/github/hackaton_frontend/hackaton/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-3dnrz5qgi9
+build_metadata.AdditionalFiles.CssScope = b-hh9glfll7o
