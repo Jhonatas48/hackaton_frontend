@@ -12,12 +12,12 @@ namespace hackaton
     public class Startup
     {
         private readonly Context _context;
-        private readonly bool useSqlServer= true;
+        private readonly bool useSqlServer = false;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-           
-           
+
+
         }
 
         public IConfiguration Configuration { get; }
@@ -57,15 +57,19 @@ namespace hackaton
             {
                 //configuração para acesso ao banco de dados
                 services.AddDbContext<Context>(options => options.UseSqlServer(
-                   Configuration["Data:SqlServerConnectionString"]));
+                   Configuration["Data:SqlServerConnectionString"])
+               // .EnableSensitiveDataLogging() // Habilitar o log de dados sensíveis
+
+               );
             }
-            else {
-               
+            else
+            {
+
                 services.AddDbContext<Context>(options => options.UseNpgsql(Configuration["Data:PostgresConnectionString"]));
             }
-         
+
             services.AddMvc();
-            services.AddAuthentication( options =>
+            services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "MyAuthenticationScheme";
                 options.DefaultForbidScheme = "MyAuthenticationScheme";
@@ -89,7 +93,7 @@ namespace hackaton
                 options.AccessDeniedPath = "/Home/PermissionDenied";
 
                 // Define a rota para redirecionar o usuário quando ocorrer um desafio de autenticação
-               // options.LoginPath = "/Home/Login";
+                // options.LoginPath = "/Home/Login";
 
                 // Define a rota para redirecionar o usuário após fazer logout
                 options.LogoutPath = "/Home";
@@ -98,7 +102,7 @@ namespace hackaton
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserCacheService userCache, QRCodeCacheService qrCodeCache,Context context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserCacheService userCache, QRCodeCacheService qrCodeCache, Context context)
         {
             if (env.IsDevelopment())
             {
@@ -124,34 +128,15 @@ namespace hackaton
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                PopulateDataBase.initialize(app);
+                if (useSqlServer)
+                {
+                    PopulateDataBase.initialize(app);
+                }
+
             }
 
             );
-            
-            // Obter a lista de usuários do banco de dados
-            var users = context.Users;//.ToList();
-           
-            if(users != null)
-            {
-                var usersList = users.ToList();
-                foreach (var user in usersList)
-                {
-                    userCache.AddUserToCache(user);
-                }
-            }
-            // Adicionar cada usuário ao cache
 
-            var qrCodes = context.QrCodes;
-            if(qrCodes != null)
-            {
-
-                var qrList = qrCodes.ToList();
-                foreach (var qr in qrList)
-                {
-                     qrCodeCache.AddQRCodeToCache(qr);
-                }
-            }
 
         }
 

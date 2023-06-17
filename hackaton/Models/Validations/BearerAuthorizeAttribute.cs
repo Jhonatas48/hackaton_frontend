@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NuGet.Protocol;
+using System.Configuration;
 using System.Net;
 
 namespace hackaton.Models.Security
@@ -37,11 +38,24 @@ namespace hackaton.Models.Security
             if (string.IsNullOrEmpty(token) || token.Equals("undefined")) {
                 return false;
             }
+
+
+
             // Lógica de validação do token
             // Retorna true se o token for válido, caso contrário, retorna false
             // Implemente a lógica de validação de acordo com os requisitos do seu sistema
             // Você pode usar serviços, bancos de dados, listas de tokens válidos, etc.
-            return true;
+
+            // Criar uma instância do ConfigurationBuilder
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            // Construir a configuração
+            var configuration = configBuilder.Build();
+
+
+            return token.Equals(configuration["Autentication:Token"]);
         }
     }
 }
