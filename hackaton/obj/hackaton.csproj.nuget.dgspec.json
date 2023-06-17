@@ -81,9 +81,9 @@
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "QRCoder-ImageSharp": {
+            "QRCoderNetCore": {
               "target": "Package",
-              "version": "[0.9.0, )"
+              "version": "[1.0.0, )"
             }
           },
           "imports": [

@@ -57,10 +57,7 @@ namespace hackaton
             {
                 //configuração para acesso ao banco de dados
                 services.AddDbContext<Context>(options => options.UseSqlServer(
-                   Configuration["Data:SqlServerConnectionString"])
-               // .EnableSensitiveDataLogging() // Habilitar o log de dados sensíveis
-
-               );
+                   Configuration["Data:SqlServerConnectionString"]));
             }
             else {
                
@@ -127,11 +124,7 @@ namespace hackaton
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                if (useSqlServer)
-                {
-                    PopulateDataBase.initialize(app);
-                }
-              
+                PopulateDataBase.initialize(app);
             }
 
             );

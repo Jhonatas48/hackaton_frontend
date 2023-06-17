@@ -33,6 +33,5 @@ namespace hackaton.Models
 
         public ICollection<Property>  Properties{ get; set; }
         public ICollection<QrCode> QrCodes { get; set; }
-        public ICollection<Schedule> Agendamentos { get; set;}
     }
 }

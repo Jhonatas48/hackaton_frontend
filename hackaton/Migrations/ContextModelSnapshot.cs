@@ -99,34 +99,6 @@ namespace hackaton.Migrations
                     b.ToTable("QrCodes");
                 });
 
-            modelBuilder.Entity("hackaton.Models.Schedule", b =>
-                {
-                    b.Property<int>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"));
-
-                    b.Property<DateTime>("DataFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicial")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ScheduleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Schedules");
-                });
-
             modelBuilder.Entity("hackaton.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -183,21 +155,8 @@ namespace hackaton.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("hackaton.Models.Schedule", b =>
-                {
-                    b.HasOne("hackaton.Models.User", "User")
-                        .WithMany("Agendamentos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("hackaton.Models.User", b =>
                 {
-                    b.Navigation("Agendamentos");
-
                     b.Navigation("Properties");
 
                     b.Navigation("QrCodes");
