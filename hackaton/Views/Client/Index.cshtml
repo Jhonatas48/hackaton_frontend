@@ -36,20 +36,7 @@
 
                     <partial name="~/Views/Modules/partial_textbox_password_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
 
-@*                    <label class="input-description">Confirmar Nova Senha</label>
-                    <div class="input env" data-cluster="btn1">
-                        <div class="sub">
-                            <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/vpn_key_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
-                            <input class="textbox" data-cluster="btn1" type="password" placeholder="●●●●●●">
-                        </div>
-                        <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/visibility_off_FILL0_wght400_GRAD0_opsz48.svg" class="icon eye hide"></img>
-                    </div>*@
-
                     <partial name="~/Views/Modules/partial_textbox_cpf_readonly.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-@*                    <div class="form-group" style="min-width:100%">
-                        <input hidden class="form-control" value="CPF" asp-for="CPF"/>
-                    </div>*@
 
                 </div>
 
@@ -57,7 +44,7 @@
                     <a asp-controller="Users" asp-action="" class="btn btn-primary btn-override primary-color-override"> <!--NÃO IMPLEMENTADO-->
                         <label>Salvar Alterações</label>
                     </a>
-                    <div asp-controller="Users" asp-action="Delete" type="submit" value="Excluir Perfil" class="btn btn-danger btn-override danger-color-override">
+                    <div id="DeleteClient" asp-controller="Client" asp-action="Delete" type="submit" value="Excluir Perfil" class="btn btn-danger btn-override danger-color-override">
                         <label>Excluir Perfil</label>
                     </div>
                 </div>
@@ -66,6 +53,27 @@
             </form>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tem certeza?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente excluir o usuário?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="fecharModal" type="button" class="btn btn-secondary btn-override" data-dismiss="modal">Fechar</button>
+                <button id="confirmarExclusao" type="button" class="btn btn-danger btn-override danger-color-override">Excluir</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -78,3 +86,35 @@
 <script src="/js/module-textbox-focus.js"></script>
 <script src="/js/module-password-eye-visibility.js"></script>
 <script src="/js/module-home-hover.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Evento de clique no botão "Excluir"
+        $('#DeleteClient').click(function () {
+            $('#confirmModal').modal('show'); // Abre o modal de confirmação
+        });
+
+        // Evento de clique no botão "Excluir" do modal
+        $('#confirmarExclusao').click(function () {
+            var user = @Model; /* Obtenha o ID do usuário a partir do Model da página */;
+            var userData = JSON.stringify(user);
+            console.log(userData);
+
+            // Chamada AJAX para o método DeleteClient
+            $.ajax({
+                url: '/ClientController/DeleteClient',
+                type: 'POST',
+                data: userData,
+                contentType: 'application/json',
+                success: function (response) {
+                    // Lógica para tratar a resposta da exclusão, se necessário
+                    //window.location.href = '/Client/Logout'; <- vou colocar o redirect direto no código em caso de sucesso, pra evitar tampering
+                    //$('#confirmModal').modal('hide'); // Fecha o modal após a exclusão
+                },
+                error: function (xhr, status, error) {
+                    console.log(error, status, xhr);
+                }
+            });
+        });
+    });
+</script>

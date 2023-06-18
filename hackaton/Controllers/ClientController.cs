@@ -1,17 +1,21 @@
 ﻿using hackaton.Models;
 using hackaton.Models.Caches;
+using hackaton.Models.DAO;
 using hackaton.Models.Injectors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace hackaton.Controllers
 {
     public class ClientController : Controller
     {
         private readonly UserCacheService _userService;
+        private readonly Context _context;
       
-        public ClientController(UserCacheService cache) { 
+        public ClientController(UserCacheService cache, Context context) { 
             _userService = cache;
+            _context = context;
         }
         // GET: ClientController
         [ServiceFilter(typeof(RequireLoginAttributeFactory))]
@@ -41,5 +45,27 @@ namespace hackaton.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        // GET, recebe o User da página em forma de JSON, remonta o User, e usa o ApiRequest para solicitar a deleção ao Back
+        public async Task<IActionResult> DeleteClient([FromBody] JObject userData)
+        {
+            try
+            {
+                User user = userData.ToObject<User>();
+
+                user = await ApiRequest.deleteUser(user);
+                if (User != null)
+                {
+                    return RedirectToAction("Logout");
+                }
+                else
+                {   // Aqui a API retornou um erro, por algum motivo
+                    return StatusCode(500, "Algo deu errado.");
+                }
+            }
+            catch (Exception ex)    // Provavelmente só acontece caso chegue um userData inválido para conversão
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
