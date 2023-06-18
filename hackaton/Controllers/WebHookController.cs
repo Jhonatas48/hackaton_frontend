@@ -31,7 +31,7 @@ namespace hackaton.Controllers
             }
 
             await _redirectClient.Clients.Group("pc_user" +userId).SendAsync("redirect", "/Client/Index");
-            ApiRequest.getUsers();
+            await ApiRequest.getUsers();
             return Ok();
         }
 
