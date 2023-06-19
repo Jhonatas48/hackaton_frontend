@@ -1,4 +1,5 @@
 ﻿using DevOne.Security.Cryptography.BCrypt;
+using frontend_hackaton.Models;
 using hackaton.Models.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.CommandLine;
@@ -30,5 +31,7 @@ namespace hackaton.Models
         public bool IsAdmin { get; set; } = false;
 
         public bool Active { get; set; } = true;
+
+        public ICollection<Schedule> Agendamentos { get; set; }
     }
 }

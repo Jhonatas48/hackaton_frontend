@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using hackaton.Models;
+using frontend_hackaton.Models;
 
 namespace hackaton.Models.DAO
 {
@@ -17,5 +18,6 @@ namespace hackaton.Models.DAO
         public DbSet<Property> Properties { get; set; }
         public DbSet<QrCode> QrCodes { get; set; }
         public DbSet<Api>Apis { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
     }
 }

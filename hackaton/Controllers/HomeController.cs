@@ -42,8 +42,13 @@ namespace hackaton.Controllers
 
             return View("Login");
         }
-        public  bool validateLogin(User user) {
-            var userRetrieve = _context.Users.FirstOrDefault(u => u.CPF == user.CPF);// _userCacheService.GetUserByCPFAsync(user.CPF);//_context.Users.FirstOrDefault(u => u.CPF.Equals(user.CPF));
+
+        public async Task<bool> validateLogin(User user) {
+            // HOTFIX: Usar ApiRequest.GetUsers()
+            //var userRetrieve = _context.Users.FirstOrDefault(u => u.CPF == user.CPF);// _userCacheService.GetUserByCPFAsync(user.CPF);//_context.Users.FirstOrDefault(u => u.CPF.Equals(user.CPF));
+
+            var users = await ApiRequest.getUsers();
+            var userRetrieve = users.FirstOrDefault(u => u.CPF == user.CPF);
 
             //Usuario não existe ou credenciais estão inválidas
             if (userRetrieve == null || !BCryptHelper.CheckPassword(user.Password, userRetrieve.Password))
@@ -56,13 +61,13 @@ namespace hackaton.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User user)
+        public async Task<IActionResult> Login(User user)
         {
             if (user == null) {
                 return new BadRequestObjectResult(new { message = "User is required" }); ;
             }
 
-            if (!validateLogin(user))
+            if (!(await validateLogin(user)))
             {
                 ModelState.AddModelError("CPF", "CPF ou Senha inválidos");
                 ModelState.AddModelError("Password", "CPF ou Senha inválidos");
@@ -85,21 +90,30 @@ namespace hackaton.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(User user)
+        public async Task<IActionResult> Register(User user)
         {
-           
-                var cpfExists =  _context.Users.Any(u => u.CPF == user.CPF);
-                if (cpfExists)
-                {
-                    ModelState.AddModelError("CPF", "O CPF já está cadastrado.");
-                    return View(user);
-                }
+            // HOTFIX: Usar ApiRequest.GetUsers()
+            //var cpfExists =  _context.Users.Any(u => u.CPF == user.CPF);
+            var cpfExists = (await ApiRequest.getUsers()).Any(u => u.CPF == user.CPF);
+
+            if (cpfExists)
+            {
+                ModelState.AddModelError("CPF", "O CPF já está cadastrado.");
+                return View(user);
+            }
             
 
             user.Password = BCryptHelper.HashPassword(user.Password,BCryptHelper.GenerateSalt());
-            _context.Users.Add(user);
-            _context.SaveChanges();
-           // user = _context.Users.Where(u => u.CPF.Equals(user.CPF)).FirstOrDefault();
+
+            // HOTFIX: Usar ApiRequest.createUser()
+            //_context.Users.Add(user);
+            //_context.SaveChanges();
+            user = await ApiRequest.createUser(user);
+            if (user == null)
+            {
+                return StatusCode(500, "O servidor foi incapaz de completar o registro.");
+            }
+
             user = _userCacheService.GetUserByCPFAsync(user.CPF);
             HttpContext.Session.SetString("SessionId", user.CPF);
             HttpContext.Session.SetInt32("UserId", user.Id);
@@ -115,6 +129,7 @@ namespace hackaton.Controllers
         public IActionResult PermissionDenied() {
             return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

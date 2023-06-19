@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\mateu\Documents\GitHub\hackaton_frontend\hackaton
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Admin/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -56,6 +60,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsLWxvZ28tbmFtZW9ubHktdmVjdG9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_card_agendamento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2NhcmRfYWdlbmRhbWVudG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_card_agendar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2NhcmRfYWdlbmRhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_card_produtor.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2NhcmRfcHJvZHV0b3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -66,6 +78,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_header.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2hlYWRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_list_admin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2xpc3RfYWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_list_agendamentos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kdWxlc1xwYXJ0aWFsX2xpc3RfYWdlbmRhbWVudG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Modules/partial_submit_button.cshtml]
@@ -138,6 +158,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/QrCode/ver.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXJDb2RlXHZlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Schedule/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2NoZWR1bGVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/mateu/Documents/GitHub/hackaton_frontend/hackaton/Views/Shared/Error.cshtml]

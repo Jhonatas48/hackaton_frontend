@@ -19,7 +19,7 @@
     <div class="main_card signup">
 
         <div class="content">
-            <form asp-action="Index" style="min-width:100%">
+            <form asp-action="Edit" asp-controller="Client" method="post" style="min-width:100%">
             <div class="leading-generic">
                 <partial name="~/Views/Modules/partial-logo-nameonly-vector.cshtml" />
                 <div class="heading">
@@ -38,15 +38,24 @@
 
                     <partial name="~/Views/Modules/partial_textbox_cpf_readonly.cshtml" model='new VM.VM_textbox { User = Model }' />
 
+                    <div class="form-group" style="min-width:100%">
+                        <input type="hidden" class="form-control" name="CPF" value="@Model.CPF" asp-for="CPF"/>
+                    </div>
+
+                    <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
+
                 </div>
 
+                <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
+
                 <div class="actions">
-                    <a asp-controller="Users" asp-action="" class="btn btn-primary btn-override primary-color-override"> <!--NÃO IMPLEMENTADO-->
-                        <label>Salvar Alterações</label>
-                    </a>
+
+                    <input asp-controller="Client" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
+
                     <div id="DeleteClient" asp-controller="Client" asp-action="Delete" type="submit" value="Excluir Perfil" class="btn btn-danger btn-override danger-color-override">
                         <label>Excluir Perfil</label>
                     </div>
+
                 </div>
 
             </div>

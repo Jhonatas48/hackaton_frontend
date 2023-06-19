@@ -17,6 +17,7 @@ namespace hackaton.Controllers
             _userService = cache;
             _context = context;
         }
+
         // GET: ClientController
         [ServiceFilter(typeof(RequireLoginAttributeFactory))]
         public ActionResult Index()
@@ -66,6 +67,16 @@ namespace hackaton.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        public async Task<IActionResult> EditClient(User user)
+        {
+            var result = await ApiRequest.modifyUserLogged(user);
+            if (result != null)
+            {
+                return View("~/Views/Client/Index.cshtml",result);
+            }
+            return StatusCode(500, "O servidor não foi capaz de editar o usuário fornecido.");
         }
     }
 }

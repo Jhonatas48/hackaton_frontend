@@ -67,7 +67,7 @@ namespace hackaton.Controllers
         }
 
         // GET: ApiController/Details/5
-        public ActionResult validadeUser([FromBody] User user)
+        public async Task<ActionResult> validadeUser([FromBody] User user)
         {
             if(user == null)
             {
@@ -85,7 +85,7 @@ namespace hackaton.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_homeController.validateLogin(user))
+            if (await _homeController.validateLogin(user))
             {
                 return Ok(user);
             }
