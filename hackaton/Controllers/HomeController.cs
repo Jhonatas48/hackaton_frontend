@@ -14,14 +14,12 @@ namespace hackaton.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private Context _context;
         private readonly IHubContext<RedirectClient> _redirectClient;
 
         private UserCacheService _userCacheService;
         public HomeController(ILogger<HomeController> logger,Context context,UserCacheService cache)
         {
             _logger = logger;
-            _context = context;
             _userCacheService = cache;
            
         }

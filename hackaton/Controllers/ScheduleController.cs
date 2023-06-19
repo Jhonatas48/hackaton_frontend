@@ -6,7 +6,7 @@ using hackaton.Models.Injectors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// Jhonatas, faz isso aqui verificar se o user tá logado, pf; eu tô perdido sobre onde fica a validação
+// PRECISO DOS MÉTODOS APIREQUEST PRA MEXER COM SCHEDULE
 
 namespace hackaton.Controllers
 {

@@ -7,6 +7,8 @@ using System.Drawing;
 using QRCoder;
 using hackaton.Models.Caches;
 
+// PRECISO DOS MÉTODOS APIREQUEST PRA MEXER COM QRCODE
+
 namespace hackaton.Controllers
 {
     public class QrCodeController : Controller

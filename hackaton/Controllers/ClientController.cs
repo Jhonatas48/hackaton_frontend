@@ -11,11 +11,9 @@ namespace hackaton.Controllers
     public class ClientController : Controller
     {
         private readonly UserCacheService _userService;
-        private readonly Context _context;
       
-        public ClientController(UserCacheService cache, Context context) { 
+        public ClientController(UserCacheService cache) { 
             _userService = cache;
-            _context = context;
         }
 
         // GET: ClientController
