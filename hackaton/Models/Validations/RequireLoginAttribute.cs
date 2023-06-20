@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using hackaton.Models.DAO;
+using hackaton.Models.Caches;
 
 namespace hackaton.Models.Validations
 {
     public class RequireLoginAttribute : Attribute, IAsyncAuthorizationFilter
     {
-        private readonly Context _context;
-        public RequireLoginAttribute(Context context)
+        private readonly UserCacheService _service;
+        public RequireLoginAttribute(UserCacheService service)
         {
-            _context = context;
+           _service = service;
 
         }
 
@@ -31,11 +31,9 @@ namespace hackaton.Models.Validations
                 //;
 
             }
-            User user = _context.Users.Where(u => u.Id == userId && u.CPF.Equals(cpf)).FirstOrDefault();
-            if(user == null)
+            User user = await _service.GetUserByCPFAsync(cpf);
+            if (user == null)
             {
-                //context.Result = new RedirectToActionResult("Login", "Home", null);
-
                 context.Result = new RedirectToActionResult("Login", "Home", null);
                 return;
 

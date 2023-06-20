@@ -14,7 +14,7 @@ namespace hackaton.Models.DAO
             context.Database.Migrate();
 
             //Se o contexto estiver vazio
-            if (!context.Users.Any())
+            if (!context.Apis.Any())
             {
                
                 context.Apis.Add(new Api { Name = "Grupo TechAgro", Token = Guid.NewGuid().ToString(), Active = true});

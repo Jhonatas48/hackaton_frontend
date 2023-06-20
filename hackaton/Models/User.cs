@@ -23,9 +23,9 @@ namespace hackaton.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo CPF é obrigatório.")]
-        [StringLength(14)]
-        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "CPF inválido.Digite no formato XXX.XXX.XXX.-XX")]
-        [ValidCPF(ErrorMessage = "CPF digitado não é valiido")]
+        //[StringLength(14)]
+      //  [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "CPF inválido.Digite no formato XXX.XXX.XXX.-XX")]
+        //[ValidCPF(ErrorMessage = "CPF digitado não é valiido")]
         public string CPF { get; set; }
 
         public bool IsAdmin { get; set; } = false;

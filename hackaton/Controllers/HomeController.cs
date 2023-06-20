@@ -1,12 +1,10 @@
-﻿using DevOne.Security.Cryptography.BCrypt;
+﻿using frontend_hackaton.Models.Desserializers;
 using hackaton.Models;
 using hackaton.Models.Caches;
 using hackaton.Models.DAO;
-using hackaton.Models.Injectors;
 using hackaton.Models.WebSocket;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace hackaton.Controllers
@@ -17,7 +15,7 @@ namespace hackaton.Controllers
         private readonly IHubContext<RedirectClient> _redirectClient;
 
         private UserCacheService _userCacheService;
-        public HomeController(ILogger<HomeController> logger,Context context,UserCacheService cache)
+        public HomeController(ILogger<HomeController> logger,UserCacheService cache)
         {
             _logger = logger;
             _userCacheService = cache;
@@ -42,20 +40,8 @@ namespace hackaton.Controllers
         }
 
         public async Task<bool> validateLogin(User user) {
-            // HOTFIX: Usar ApiRequest.GetUsers()
-            //var userRetrieve = _context.Users.FirstOrDefault(u => u.CPF == user.CPF);// _userCacheService.GetUserByCPFAsync(user.CPF);//_context.Users.FirstOrDefault(u => u.CPF.Equals(user.CPF));
-
-            var users = await ApiRequest.getUsers();
-            var userRetrieve = users.FirstOrDefault(u => u.CPF == user.CPF);
-
-            //Usuario não existe ou credenciais estão inválidas
-            if (userRetrieve == null || !BCryptHelper.CheckPassword(user.Password, userRetrieve.Password))
-            { 
-                return false;
-            }
-
            
-            return true;
+            return await ApiRequest.requestLogin(user);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,15 +57,18 @@ namespace hackaton.Controllers
                 ModelState.AddModelError("Password", "CPF ou Senha inválidos");
                 return View();
             }
-            user = _userCacheService.GetUserByCPFAsync(user.CPF);
+            user = await _userCacheService.GetUserByCPFAsync(user.CPF);
             HttpContext.Session.SetString("SessionId", user.CPF);
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("CPF", user.CPF);
-          
+            string cpf = HttpContext.Session.GetString("CPF");
+            if (user.IsAdmin) {
+                return RedirectToAction("Index", "Users");
+            }
+
             return RedirectToAction("Index","Client");
            
         }
-
 
         public IActionResult Register()
         {
@@ -90,8 +79,7 @@ namespace hackaton.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user)
         {
-            // HOTFIX: Usar ApiRequest.GetUsers()
-            //var cpfExists =  _context.Users.Any(u => u.CPF == user.CPF);
+            Console.WriteLine("TESTE");
             var cpfExists = (await ApiRequest.getUsers()).Any(u => u.CPF == user.CPF);
 
             if (cpfExists)
@@ -99,20 +87,28 @@ namespace hackaton.Controllers
                 ModelState.AddModelError("CPF", "O CPF já está cadastrado.");
                 return View(user);
             }
-            
+           
+            ApiResponse<User> response = await ApiRequest.createUser(user);
 
-            user.Password = BCryptHelper.HashPassword(user.Password,BCryptHelper.GenerateSalt());
-
-            // HOTFIX: Usar ApiRequest.createUser()
-            //_context.Users.Add(user);
-            //_context.SaveChanges();
-            user = await ApiRequest.createUser(user);
-            if (user == null)
+            if (!response.Sucess)
             {
-                return StatusCode(500, "O servidor foi incapaz de completar o registro.");
+                foreach (var error in response.Errors)
+                {
+                    string campo = error.Key;
+                    List<string> mensagensErro = error.Value;
+
+                    foreach (var mensagemErro in mensagensErro)
+                    {
+                        Console.WriteLine("c: "+campo + ": " + mensagemErro);
+                        ModelState.AddModelError(campo, mensagemErro);
+                    }
+                }
+                Console.WriteLine(ModelState.IsValid);
+                ModelState.Remove("Agendamentos");
+                return View(user);
             }
 
-            user = _userCacheService.GetUserByCPFAsync(user.CPF);
+            user = await _userCacheService.GetUserByCPFAsync(user.CPF);
             HttpContext.Session.SetString("SessionId", user.CPF);
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("CPF", user.CPF);

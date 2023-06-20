@@ -45,16 +45,17 @@
                     <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
 
                 </div>
-
+                 
                 <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
 
                 <div class="actions">
 
                     <input asp-controller="Client" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
 
-                    <div id="DeleteClient" asp-controller="Client" asp-action="Delete" type="submit" value="Excluir Perfil" class="btn btn-danger btn-override danger-color-override">
-                        <label>Excluir Perfil</label>
-                    </div>
+                   <form asp-action="Delete" asp-controller="Client">
+                     <input type="hidden" asp-for="Id" />
+                     <input type="submit" value="Delete" class="btn btn-danger btn-override danger-color-override" />
+                   </form>
 
                 </div>
 

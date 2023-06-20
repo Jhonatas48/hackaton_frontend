@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using hackaton.Models.DAO;
+using hackaton.Models.Caches;
 
 namespace hackaton.Models.Validations
 {
     public class RequireLoginAdminAttribute : Attribute, IAsyncAuthorizationFilter
     {
-        private readonly Context _context;
-        public RequireLoginAdminAttribute(Context context)
+        private readonly UserCacheService _service;
+        public RequireLoginAdminAttribute(UserCacheService services)
         {
-            _context = context;
+            _service = services;
 
         }
 
@@ -25,22 +25,17 @@ namespace hackaton.Models.Validations
 
             if (string.IsNullOrEmpty(cpf) || userId == null || sessionId == null)// || !authorizationHeader.StartsWith("Bearer ") || authorizationHeader.StartsWith("Bearer undefined"))
            {
-                
                 context.Result = new RedirectToActionResult("Login", "Home", null);
                 return;
-                //;
-
+             
             }
-            User user = _context.Users.Where(u => u.Id == userId && u.CPF.Equals(cpf) && u.IsAdmin).FirstOrDefault();
-            if(user == null)
+            User user = await _service.GetUserByCPFAsync(cpf);
+            if(user ==null || !user.IsAdmin)
             {
-                //context.Result = new RedirectToActionResult("Login", "Home", null);
-
                 context.Result = new ForbidResult();
                 return;
-
             }
-       
+           
     }
 
   
