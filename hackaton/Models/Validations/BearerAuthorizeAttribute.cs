@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NuGet.Protocol;
-using System.Configuration;
-using System.Net;
+
 
 namespace hackaton.Models.Security
 {

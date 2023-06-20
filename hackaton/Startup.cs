@@ -1,18 +1,14 @@
 ﻿using hackaton.Controllers;
 using hackaton.Models.Caches;
-using hackaton.Models.DAO;
 using hackaton.Models.Injectors;
 using hackaton.Models.WebSocket;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace hackaton
 {
     public class Startup
     {
-        private readonly Context _context;
-        private readonly bool useSqlServer = false;
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,21 +49,6 @@ namespace hackaton
             services.AddScoped<QRCodeCacheService>();
             services.AddScoped<HomeController>();
 
-            if (useSqlServer)
-            {
-                //configuração para acesso ao banco de dados
-                services.AddDbContext<Context>(options => options.UseSqlServer(
-                   Configuration["Data:SqlServerConnectionString"])
-               // .EnableSensitiveDataLogging() // Habilitar o log de dados sensíveis
-
-               );
-            }
-            else
-            {
-
-                services.AddDbContext<Context>(options => options.UseNpgsql(Configuration["Data:PostgresConnectionString"]));
-            }
-
             services.AddMvc();
             services.AddAuthentication(options =>
             {
@@ -102,7 +83,7 @@ namespace hackaton
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserCacheService userCache, QRCodeCacheService qrCodeCache, Context context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserCacheService userCache, QRCodeCacheService qrCodeCache)
         {
             if (env.IsDevelopment())
             {
@@ -128,16 +109,12 @@ namespace hackaton
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                if (useSqlServer)
-                {
-                    PopulateDataBase.initialize(app);
-                }
 
             }
 
             );
 
-
+            
         }
 
     }

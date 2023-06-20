@@ -1,8 +1,7 @@
-﻿using hackaton.Models;
+﻿using frontend_hackaton.Models.Desserializers;
+using hackaton.Models;
 using hackaton.Models.Caches;
-using hackaton.Models.DAO;
 using hackaton.Models.Injectors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -10,20 +9,22 @@ namespace hackaton.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly UserCacheService _userService;
+        
       
-        public ClientController(UserCacheService cache) { 
-            _userService = cache;
+        public ClientController() { 
+           
         }
 
         // GET: ClientController
         [ServiceFilter(typeof(RequireLoginAttributeFactory))]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             string cpf = HttpContext.Session.GetString("CPF");
             int userId = (int)HttpContext.Session.GetInt32("UserId");
-            User user = _userService.GetUserByCPFAsync(cpf);
-            Console.WriteLine(user.IsAdmin);
+
+            var users = await ApiRequest.getUsers(cpf);
+            User user = users.FirstOrDefault();
+           
             if (user != null && user.Id == userId && user.IsAdmin) {
                 return RedirectToAction("Index", "Users");
             }
@@ -45,13 +46,13 @@ namespace hackaton.Controllers
         }
 
         // GET, recebe o User da página em forma de JSON, remonta o User, e usa o ApiRequest para solicitar a deleção ao Back
-        public async Task<IActionResult> DeleteClient([FromBody] JObject userData)
+        public async Task<IActionResult> Delete([FromBody] JObject userData)
         {
             try
             {
                 User user = userData.ToObject<User>();
 
-                user = await ApiRequest.deleteUser(user);
+                user = await ApiRequest.deleteUserLogged(user);
                 if (User != null)
                 {
                     return RedirectToAction("Logout");
@@ -67,14 +68,34 @@ namespace hackaton.Controllers
             }
         }
 
-        public async Task<IActionResult> EditClient(User user)
+        public async Task<IActionResult> Edit(User user)
         {
-            var result = await ApiRequest.modifyUserLogged(user);
-            if (result != null)
+            ApiResponse<User> response = await ApiRequest.modifyUserLogged(user);
+
+            if (response == null)
             {
-                return View("~/Views/Client/Index.cshtml",result);
+                return StatusCode(500, "O servidor não foi capaz de editar o usuário fornecido.");
             }
-            return StatusCode(500, "O servidor não foi capaz de editar o usuário fornecido.");
+            if (response.Sucess)
+            {
+                return View("~/Views/Client/Index.cshtml", response.classObject);
+            }
+            if(response.statusCode == 404)
+            {
+                return NotFound();
+            }
+            foreach (var error in response.Errors)
+            {
+                string campo = error.Key;
+                List<string> mensagensErro = error.Value;
+
+                foreach (var mensagemErro in mensagensErro)
+                {
+                    ModelState.AddModelError(campo, mensagemErro);
+                }
+            }
+
+            return View("~/Views/Client/Index.cshtml", user);
         }
     }
 }

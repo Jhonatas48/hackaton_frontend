@@ -1,52 +1,45 @@
 ﻿using frontend_hackaton.Models;
+using frontend_hackaton.Models.Desserializers;
 using hackaton.Models;
 using hackaton.Models.Caches;
-using hackaton.Models.DAO;
 using hackaton.Models.Injectors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// PRECISO DOS MÉTODOS APIREQUEST PRA MEXER COM SCHEDULE
 
 namespace hackaton.Controllers
 {
     public class ScheduleController : Controller
     {
-        Context _ctx;
-        private readonly UserCacheService _userService;
 
-        public ScheduleController(Context ctx, UserCacheService cache)
-        {
-            _userService = cache;
-            _ctx = ctx;
-        }
-
-
-        // Eu ACHO que é isso aqui que faz o usuário PRECISAR estar logado
         [ServiceFilter(typeof(RequireLoginAttributeFactory))]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             int userId = (int)HttpContext.Session.GetInt32("UserId");
-            List<Schedule> agendamentos = _ctx.Schedules.Where(sch => sch.UserId == userId).ToList();
+            List<Schedule> agendamentos = await ApiRequest.getSchedules(userId);//_ctx.Schedules.Where(sch => sch.UserId == userId).ToList();
 
             return View("~/Views/Schedule/Index.cshtml", agendamentos);
         }
 
-        public IActionResult LoadPartialListAgendamentos()
+        public async Task<IActionResult> LoadPartialListAgendamentos()
         {
             List<Schedule> agendamentos;
 
             string cpf = HttpContext.Session.GetString("CPF");
             int userId = (int)HttpContext.Session.GetInt32("UserId");
-            User user = _userService.GetUserByCPFAsync(cpf);
+            var users = await ApiRequest.getUsers(cpf);
+            if(users == null)
+            {
+                return NotFound();
+            }
+            User user = users.FirstOrDefault();
 
             if (user != null && user.Id == userId && user.IsAdmin)
             {
-                agendamentos = _ctx.Schedules.Where(a => a.User != null).ToList();
+                agendamentos = await ApiRequest.getSchedules();
             }
             else
             {
-                agendamentos = _ctx.Schedules.Where(a => a.User.Id == user.Id).ToList();
+                agendamentos = await ApiRequest.getSchedules(userId);
             }
 
             return PartialView("~/Views/Modules/partial_list_agendamentos", agendamentos);
@@ -65,24 +58,29 @@ namespace hackaton.Controllers
         {
             string cpf = HttpContext.Session.GetString("CPF");
             int userId = (int)HttpContext.Session.GetInt32("UserId");
-            User user = _userService.GetUserByCPFAsync(cpf);
-            //agendamento.User = user;
-
-            //ModelState.ClearValidationState("User");
-            //TryValidateModel(agendamento);
-
-            if (user != null) //ent, isso -> ModelState.IsValid tava dando problema, então aqui é só um bandaid sobre uma hemorragia :D
+            var users = await ApiRequest.getUsers(cpf);
+            if (users == null)
             {
-                agendamento.UserId = userId;
-                _ctx.Schedules.Add(agendamento);
-                await _ctx.SaveChangesAsync();
+                return NotFound();
             }
-            else
+            User user = users.FirstOrDefault();
+
+            ApiResponse<Schedule> response = await ApiRequest.createSchedule(agendamento);
+            if (!response.Sucess)
             {
-                ModelState.AddModelError("Description", "Algo deu errado. Contate a administração do sistema.");
+                foreach (var error in response.Errors)
+                {
+                    string campo = error.Key;
+                    List<string> mensagensErro = error.Value;
+
+                    foreach (var mensagemErro in mensagensErro)
+                    {
+                        ModelState.AddModelError(campo, mensagemErro);
+                    }
+                }
             }
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
         }
 
         // GET: AgendamentoController/Edit/5
@@ -112,11 +110,14 @@ namespace hackaton.Controllers
         [ServiceFilter(typeof(RequireLoginAttributeFactory))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var del = _ctx.Schedules.Where(a => a.ScheduleID == id).Single();
-            _ctx.Schedules.Remove(del);
-            _ctx.SaveChanges();
+           Schedule schedule = await ApiRequest.deleteSchedule(id);
+
+            if(schedule == null)
+            {
+                return Unauthorized();
+            }
 
             return RedirectToAction(nameof(Index));
         }

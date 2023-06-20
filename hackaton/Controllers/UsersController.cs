@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using hackaton.Models;
-using hackaton.Models.DAO;
-using DevOne.Security.Cryptography.BCrypt;
 using hackaton.Models.Caches;
-using hackaton.Models.Validations;
 using hackaton.Models.Injectors;
 using Microsoft.IdentityModel.Tokens;
+using frontend_hackaton.Models.Desserializers;
 
 namespace hackaton.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UserCacheService _userCacheService;
+       // private readonly UserCacheService _userCacheService;
         public UsersController(UserCacheService cache)
         {
-            _userCacheService = cache;
+           // _userCacheService = cache;
         }
 
         // HOTFIX: Usar ApiRequest
@@ -42,21 +35,7 @@ namespace hackaton.Controllers
 
             return View("~/Views/Admin/Index.cshtml", ListaUsers);
         }
-
-        public IActionResult AllowedRegister(string cpf)
-        {
-            Console.WriteLine(cpf);
-
-            if (_userCacheService.GetUserByCPFAsync(cpf) == null)
-            {
-                return Json(true);
-            }
-
-            return Json("CPF já cadastrado");
-
-        }
-
-        // HOTFIX: Usar ApiRequest
+        
         [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
         // GET: Users
         public async Task<IActionResult> Index()
@@ -65,67 +44,52 @@ namespace hackaton.Controllers
             return (ListaUsers != null) ?
                 View("~/Views/Admin/Index.cshtml", ListaUsers.Where(user => user.Active == true).ToList()) :
                 Problem("Entity set 'ListaUsers'  is null.");
-            //return _context.Users != null ?
-            //            View("~/Views/Admin/Index.cshtml", _context.Users.Where(user => user.Active == true).ToList()) :
-            //            Problem("Entity set 'Context.Users'  is null.");
-            //return View("~/Views/Admin/Index.cshtml");
+          
         }
 
-        // GET: Users/Create
-        [ServiceFilter(typeof(RequireLoginAttributeFactory))]
         [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
-        public IActionResult Create()
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
-        }
-
-        // HOTFIX: Usar ApiRequest
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ServiceFilter(typeof(RequireLoginAttributeFactory))]
-        [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Password,CPF,IsAdmin")] User user)
-        {
-            if (ModelState.IsValid)
+            string cpf = HttpContext.Session.GetString("CPF");
+           var users = await ApiRequest.getUsers(cpf);
+            User userAdmin = users.FirstOrDefault();
+            User user = await ApiRequest.getUserToModify(id,userAdmin);
+            if(user == null)
             {
-                //var cpfExists = await _context.Users.AnyAsync(u => u.CPF == user.CPF);
-                var cpfExists = (await ApiRequest.getUsers()).Any(u => u.CPF == user.CPF);
-                if (cpfExists)
-                {
-                    ModelState.AddModelError("CPF", "O CPF já está cadastrado.");
-                    return View(user);
-                }
-
-                string password = user.Password;
-                user.Password = BCryptHelper.HashPassword(password, BCryptHelper.GenerateSalt());
-                
-                await ApiRequest.createUser(user);
-                //_context.Add(user);
-                //await _context.SaveChangesAsync();
-                
-                _userCacheService.AddUserToCache(user);
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View("~/Views/Admin/Edit.cshtml", user);
         }
 
-        // HOTFIX: Usar ApiRequest
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ServiceFilter(typeof(RequireLoginAttributeFactory))]
+        [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
         [ValidateAntiForgeryToken]
        
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Password,CPF,IsAdmin")] User user)
         {
 
             user.Id = id;
-            user = await ApiRequest.modifyUserLogged(user);
+            ApiResponse<User> response =  await ApiRequest.modifyUser(user);
 
+            if (!response.Sucess)
+            {
+                foreach (var error in response.Errors)
+                {
+                    string campo = error.Key;
+                    List<string> mensagensErro = error.Value;
+
+                    foreach (var mensagemErro in mensagensErro)
+                    {
+                        ModelState.AddModelError(campo, mensagemErro);
+                    }
+                }
+                Console.WriteLine(ModelState.IsValid);
+                ModelState.Remove("Agendamentos");
+                 return View("~/Views/Admin/Edit.cshtml", user);
+            }
             //var userRetrieve = (await ApiRequest.getUsers()).Where(user => user.Id == userId).Single();
             ////var userRetrieve = _context.Users.Where(u => u.Id == userId).Single();
             //user.IsAdmin = userRetrieve.IsAdmin;
@@ -161,43 +125,56 @@ namespace hackaton.Controllers
             //    }
             //    return RedirectToAction("Index");
             //}
+            return RedirectToAction("Index");
+        }
+
+
+        [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            string cpf = HttpContext.Session.GetString("CPF");
+            var users = await ApiRequest.getUsers(cpf);
+            User userAdmin = users.FirstOrDefault();
+            User user = await ApiRequest.getUserToModify(id, userAdmin);
+            if (user == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View("~/Views/Admin/Edit.cshtml", user);
         }
 
-        // HOTFIX: Usar ApiRequest
+
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ServiceFilter(typeof(RequireLoginAttributeFactory))]
-        [ValidateAntiForgeryToken]
+        [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            string cpf = HttpContext.Session.GetString("CPF");
+            var users = await ApiRequest.getUsers(cpf);
+            User userAdmin = users.FirstOrDefault();
+
             int userId = (int)HttpContext.Session.GetInt32("UserId");
 
-            //if (_context.Users == null)
-            var ListaUsers = await ApiRequest.getUsers();
-            if (ListaUsers == null )
-            {
-                return Problem("Entity set 'ListaUsers'  is null.");
-            }
+            var user = await ApiRequest.getUserToModify(id,userAdmin);
 
-            //var user = await _context.Users.FindAsync(id);
-            var user = ListaUsers.Find(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
             if (user.Id == userId)
             {
                 ModelState.AddModelError("Name", "Você não pode excluir a si mesmo");
                 return RedirectToAction("Index");
             }
+        
+           var userDeleted = await ApiRequest.deleteUser(id,userAdmin);
 
-            if (user != null)
+            if (userDeleted == null)
             {
-                user.Active = false;
-
-                await ApiRequest.deleteUser(user);
-                //_context.Users.Update(user);
-                //await _context.SaveChangesAsync();
+                return Forbid();
             }
-
             //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -48,16 +48,20 @@
                         <button type="submit" class="btn btn-primary btn-override primary-color-override">
                             Salvar Alterações
                         </button>
-
+                    </div>
+            </form>
+                    <div class="actions">
                         @*<input asp-controller="Users" asp-action="Edit" class="btn btn-primary btn-override primary-color-override" type="submit" value="Salvar Alterações">*@
-
-                        <a href="@Url.Action("Delete","Client", new { id = Model.Id })" class="btn btn-danger btn-override danger-color-override">
-                            <label>Excluir Perfil</label>
-                        </a>
+                        <form asp-action="Delete" asp-controller="Users" asp-method="post" style="min-width:100%">
+                            <input type="hidden" asp-for="Id" />
+                            <button type="submit" class="btn btn-danger btn-override danger-color-override">
+                                Excluir
+                            </button>
+                        </form>
                     </div>
 
                 </div>
-            </form>
+            
         </div>
 
     </div>
