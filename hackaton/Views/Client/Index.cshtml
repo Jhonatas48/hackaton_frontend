@@ -19,48 +19,9 @@
     <div class="main_card signup">
 
         <div class="content">
-            <form asp-action="Edit" asp-controller="Client" method="post" style="min-width:100%">
-            <div class="leading-generic">
-                <partial name="~/Views/Modules/partial-logo-nameonly-vector.cshtml" />
-                <div class="heading">
-                    <span>Perfil de Produtor</span>
-                </div>
-                <div class="detail">
-                    <span>Visualize seus dados pessoais</span>
-                </div>
-            </div>
-            <div class="trailing">
-                <div class="inputs">
+            
+            <partial name="~/Views/Modules/partial_form_edit_client.cshtml" model="Model"/>    
 
-                    <partial name="~/Views/Modules/partial_textbox_name_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                    <partial name="~/Views/Modules/partial_textbox_password_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                    <partial name="~/Views/Modules/partial_textbox_cpf_readonly.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                    <div class="form-group" style="min-width:100%">
-                        <input type="hidden" class="form-control" name="CPF" value="@Model.CPF" asp-for="CPF"/>
-                    </div>
-
-                    <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
-
-                </div>
-                 
-                <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
-
-                <div class="actions">
-
-                    <input asp-controller="Client" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
-
-                   <form asp-action="Delete" asp-controller="Client">
-                     <input type="hidden" asp-for="Id" />
-                     <input type="submit" value="Delete" class="btn btn-danger btn-override danger-color-override" />
-                   </form>
-
-                </div>
-
-            </div>
-            </form>
         </div>
 
     </div>

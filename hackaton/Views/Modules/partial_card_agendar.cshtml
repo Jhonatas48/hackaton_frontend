@@ -16,7 +16,7 @@
                 <span asp-validation-for="DataInicial" class="detail text-danger-override"></span>
             </div>
 
-            <div class="field-wrapper form-group" style="min-width:100%">
+            <div class="field-wrapper form-group">
                 <span class="heading">Data de término</span>
                 <div class="input env min-w200 w100" data-cluster="btn1">
                     <input class="textbox" placeholder="dd/mm/aaaa" asp-for="DataFinal">
@@ -27,17 +27,21 @@
         </div>
 
 
-        <div class="horizontal-flex form-group" style="min-width:100%">
+        <div class="horizontal-flex form-group">
 
             <div class="field-wrapper">
                 <span class="heading">Descrição</span>
-                <div class="input env min-w200 w100" data-cluster="btn1">
+                <div class="input env w100" data-cluster="btn1">
                     <input class="textbox" placeholder="..." asp-for="Description">
                 </div>
                 <span asp-validation-for="Description" class="detail text-danger-override"></span>
             </div>
 
         </div>
+
+        <p>
+
+        </p>
 
         <div class="field-wrapper form-group">
             <input class="btn btn-primary btn-override primary-color-override" type="submit" value="Salvar">

@@ -1,0 +1,77 @@
+﻿@model hackaton.Models.User
+
+<form asp-action="Edit" asp-controller="Users" method="post" style="min-width:100%">
+    <div class="leading-generic">
+        <partial name="~/Views/Modules/partial-logo-nameonly-vector.cshtml" />
+        <div class="heading">
+            <span>Perfil de Produtor (Visão Administrador)</span>
+        </div>
+        <div class="detail">
+            <span>Visualize seus dados pessoais</span>
+        </div>
+    </div>
+    <div class="trailing">
+        <div class="inputs">
+
+            @*<partial name="~/Views/Modules/partial_textbox_name_edit.cshtml" model='new VM.VM_textbox { User = Model }' />*@
+
+            <div class="form-group" style="min-width:100%">
+                <label class="input-description">Nome</label>
+                <div class="input env" data-cluster="btn1">
+                    <div class="sub">
+                        <input class="form-control textbox" data-cluster="btn1" placeholder="Alterar nome" value="@Model.Name" asp-for="Name">
+                    </div>
+                </div>
+                <span asp-validation-for="Name" class="detail text-danger-override"></span>
+            </div>
+
+            @*<partial name="~/Views/Modules/partial_textbox_password_edit.cshtml" model='new VM.VM_textbox { User = Model }' />*@
+
+            <div class="form-group" style="min-width:100%">
+                <label class="input-description">Alterar Senha</label>
+                <div class="input env" data-cluster="btn1">
+                    <div class="sub">
+                        <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/vpn_key_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
+                        <input class="form-control textbox" data-cluster="btn1" type="password" placeholder="●●●●●●" asp-for="Password">
+                    </div>
+                    <div class="icon eye"></div>
+                </div>
+                <span asp-validation-for="Password" class="detail text-danger-override"></span>
+            </div>
+
+            @*<partial name="~/Views/Modules/partial_textbox_cpf.cshtml" model='new VM.VM_textbox { User = Model }' />*@
+
+            <div class="form-group" style="min-width:100%">
+                <label class="input-description">CPF</label>
+                <div class="input env" data-cluster="btn1">
+                    <div class="sub">
+                        <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/badge_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
+                        <input class="cpf form-control textbox" data-cluster="btn1" placeholder="123.456.789-00" asp-for="CPF">
+                    </div>
+                    <div class="icon checkmark"></div>
+                </div>
+                <span asp-validation-for="CPF" class="ver-cpf detail text-danger-override"></span>
+            </div>
+
+            <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
+
+            <input type="checkbox" checked="@Model.IsAdmin" asp-for="IsAdmin"/> Admin
+
+        </div>
+
+        <div class="actions">
+
+            @*Botão de Editar (ASP)*@
+
+            <input asp-controller="Users" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
+
+            @*Botão de Excluir (AJAX)*@
+
+            <div id="DeleteUser" class="btn btn-danger btn-override danger-color-override">
+                <label>Excluir Perfil</label>
+            </div>
+
+        </div>
+
+    </div>
+</form>

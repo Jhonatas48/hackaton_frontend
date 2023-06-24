@@ -80,9 +80,9 @@ namespace hackaton.Controllers
         public async Task<IActionResult> Register(User user)
         {
             Console.WriteLine("TESTE");
-            var cpfExists = (await ApiRequest.getUsers()).Any(u => u.CPF == user.CPF);
+            var cpfExists = (await ApiRequest.getUsers(""))?.Any(u => u.CPF == user.CPF);
 
-            if (cpfExists)
+            if (cpfExists != null && cpfExists == true)
             {
                 ModelState.AddModelError("CPF", "O CPF já está cadastrado.");
                 return View(user);

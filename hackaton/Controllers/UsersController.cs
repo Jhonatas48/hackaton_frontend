@@ -20,7 +20,7 @@ namespace hackaton.Controllers
         public async Task<IActionResult> Search(string searchQuery)
         {
             List<User> ListaUsers;
-            ListaUsers = await ApiRequest.getUsers();
+            ListaUsers = await ApiRequest.getUsers("");
 
             if (searchQuery.IsNullOrEmpty())
             {
@@ -40,7 +40,7 @@ namespace hackaton.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var ListaUsers = await ApiRequest.getUsers();
+            var ListaUsers = await ApiRequest.getUsers("");
             return (ListaUsers != null) ?
                 View("~/Views/Admin/Index.cshtml", ListaUsers.Where(user => user.Active == true).ToList()) :
                 Problem("Entity set 'ListaUsers'  is null.");
@@ -68,11 +68,10 @@ namespace hackaton.Controllers
         [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
         [ValidateAntiForgeryToken]
        
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Password,CPF,IsAdmin")] User user)
+        public async Task<IActionResult> Edit([Bind("Id,Name,Password,CPF,IsAdmin")] User user) //int id,
         {
-
-            user.Id = id;
-            ApiResponse<User> response =  await ApiRequest.modifyUser(user);
+            //user.Id = id;
+            ApiResponse<User> response = await ApiRequest.modifyUser(user);
 
             if (!response.Sucess)
             {
@@ -88,7 +87,7 @@ namespace hackaton.Controllers
                 }
                 Console.WriteLine(ModelState.IsValid);
                 ModelState.Remove("Agendamentos");
-                 return View("~/Views/Admin/Edit.cshtml", user);
+                return View("~/Views/Admin/Edit.cshtml", user);
             }
             //var userRetrieve = (await ApiRequest.getUsers()).Where(user => user.Id == userId).Single();
             ////var userRetrieve = _context.Users.Where(u => u.Id == userId).Single();
@@ -181,7 +180,7 @@ namespace hackaton.Controllers
 
         private async Task<bool> UserExists(int id)
         {
-            return ((await ApiRequest.getUsers())?.Any(u => u.Id == id)).GetValueOrDefault();
+            return ((await ApiRequest.getUsers(""))?.Any(u => u.Id == id)).GetValueOrDefault();
             //return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }

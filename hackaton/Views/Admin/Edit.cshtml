@@ -19,51 +19,32 @@
     <div class="main_card signup">
 
         <div class="content">
-            <form asp-action="Edit" asp-controller="Users" method="post" style="min-width:100%">
-                <div class="leading-generic">
-                    <partial name="~/Views/Modules/partial-logo-nameonly-vector.cshtml" />
-                    <div class="heading">
-                        <span>Perfil de Produtor (Visão Administrador)</span>
-                    </div>
-                    <div class="detail">
-                        <span>Visualize seus dados pessoais</span>
-                    </div>
-                </div>
-                <div class="trailing">
-                    <div class="inputs">
+             
+            <partial name="~/Views/Modules/partial_form_edit_admin.cshtml" model="Model" />
 
-                        <partial name="~/Views/Modules/partial_textbox_name_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                        <partial name="~/Views/Modules/partial_textbox_password_edit.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                        <partial name="~/Views/Modules/partial_textbox_cpf.cshtml" model='new VM.VM_textbox { User = Model }' />
-
-                        <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
-
-                        @Html.HiddenFor(m => m.Id)
-                    </div>
-
-                    <div class="actions">
-                        
-                        <button type="submit" class="btn btn-primary btn-override primary-color-override">
-                            Salvar Alterações
-                        </button>
-                    </div>
-            </form>
-                    <div class="actions">
-                        @*<input asp-controller="Users" asp-action="Edit" class="btn btn-primary btn-override primary-color-override" type="submit" value="Salvar Alterações">*@
-                        <form asp-action="Delete" asp-controller="Users" asp-method="post" style="min-width:100%">
-                            <input type="hidden" asp-for="Id" />
-                            <button type="submit" class="btn btn-danger btn-override danger-color-override">
-                                Excluir
-                            </button>
-                        </form>
-                    </div>
-
-                </div>
-            
         </div>
 
+    </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tem certeza?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente excluir o usuário?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="fecharModal" type="button" class="btn btn-secondary btn-override" data-dismiss="modal">Fechar</button>
+                <button id="confirmarExclusao" type="button" class="btn btn-danger btn-override danger-color-override">Excluir</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -76,3 +57,33 @@
 <script src="/js/module-textbox-focus.js"></script>
 <script src="/js/module-password-eye-visibility.js"></script>
 <script src="/js/module-home-hover.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Evento de clique no botão "Excluir"
+        $('#DeleteUser').click(function () {
+            $('#confirmModal').modal('show'); // Abre o modal de confirmação
+        });
+
+        // Evento de clique no botão "Excluir" do modal
+        $('#confirmarExclusao').click(function () {
+            var userId = @Model.Id;
+
+            // Chamada AJAX para o método DeleteClient
+            $.ajax({
+                url: '/UsersController/Delete',
+                type: 'POST',
+                data: userId,
+                contentType: 'application/json',
+                success: function (response) {
+                    // Lógica para tratar a resposta da exclusão, se necessário
+                    //window.location.href = '/Client/Logout'; <- vou colocar o redirect direto no código em caso de sucesso, pra evitar tampering
+                    //$('#confirmModal').modal('hide'); // Fecha o modal após a exclusão
+                },
+                error: function (xhr, status, error) {
+                    console.log(error, status, xhr);
+                }
+            });
+        });
+    });
+</script>
