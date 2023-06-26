@@ -9,4 +9,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet hackaton.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet frontend_hackaton.dll

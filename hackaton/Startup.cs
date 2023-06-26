@@ -96,6 +96,8 @@ namespace hackaton
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+          //  app.UseHsts();
+            app.UseHttpLogging();
             app.UseStaticFiles();
 
             app.UseRouting();
