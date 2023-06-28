@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\frontend_hackaton.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\COLORS.css",
+      "PackagePath": "staticwebassets\\css\\COLORS.css"
+    },
+    {
+      "Id": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\COLORS_fallback.css",
+      "PackagePath": "staticwebassets\\css\\COLORS_fallback.css"
+    },
+    {
       "Id": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\landpage.css",
       "PackagePath": "staticwebassets\\css\\landpage.css"
     },

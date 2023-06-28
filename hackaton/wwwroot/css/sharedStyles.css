@@ -4,7 +4,9 @@
 @import url('COLORS_fallback.css');
 @import url('COLORS.css'); /* deveria sofrer uma sobrescrita se possuir valores válidos */
 
-
+input {
+    background: var(--bg-color);
+}
 
 .text_primary {
     color: var(--text_primary);
@@ -146,7 +148,7 @@ a:active {
     flex-direction: column;
     align-items: flex-start;
     gap: 1em;
-    width: fit-content;
+    width: 100%;
     height: auto;
 }
 
@@ -155,7 +157,7 @@ a:active {
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
-    width: fit-content;
+    width: 100%;
     height: auto;
 }
 

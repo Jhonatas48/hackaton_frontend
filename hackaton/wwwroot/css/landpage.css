@@ -182,7 +182,7 @@ flex-grow: 0; */
 .primary-color-override {
     background: var(--color_primary_inv);
     color: var(--color_primary);
-    border-color: #ffa500;
+    border-color: var(--color_primary);
     border-width: 2px;
     transition: 0.2s;
 }
