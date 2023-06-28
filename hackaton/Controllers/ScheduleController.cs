@@ -64,6 +64,7 @@ namespace hackaton.Controllers
                 return NotFound();
             }
             User user = users.FirstOrDefault();
+            agendamento.UserId = user.Id;
 
             ApiResponse<Schedule> response = await ApiRequest.createSchedule(agendamento);
             if (!response.Sucess)

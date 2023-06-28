@@ -213,11 +213,11 @@ namespace hackaton.Models
 
             if (userid == 0)
             {
-                response = await SendHttpRequest("/Schedules/", HttpMethod.Get, null);
+                response = await SendHttpRequest("/Schedule/Index", HttpMethod.Get, null);
             }
             else
             {
-                response = await SendHttpRequest("/Schedules/"+userid, HttpMethod.Get, null);
+                response = await SendHttpRequest("/Schedule/?userid=" + userid, HttpMethod.Get, null);
             }
 
             if (!response.IsSuccessStatusCode)
@@ -240,16 +240,16 @@ namespace hackaton.Models
             }
             else
             {
-                response = await SendHttpRequest("/Schedules/Delete/" + id, HttpMethod.Delete, null);
+                response = await SendHttpRequest("/Schedule/Delete/" + id, HttpMethod.Post, null);
             }
 
             if (!response.IsSuccessStatusCode)
             {
-                string json = await response.Content.ReadAsStringAsync();
-                return Newtonsoft.Json.JsonConvert.DeserializeObject <Schedule>(json);
+                return null;
             }
-
-            return null;
+            string json = await response.Content.ReadAsStringAsync();
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<Schedule>(json);
+           
         }
 
         private static async Task<HttpResponseMessage> SendHttpRequest(string url, HttpMethod method, object data = null)
