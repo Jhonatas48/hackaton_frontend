@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bGRe7HVb08LIzP7tMLu0dJmgU0uJgPMYNz0nyHr/lxA=",
+  "Hash": "YohGB4PuF2X+WByXHQEFqrpyxsBGP9upG1Y/IY693tg=",
   "Source": "frontend_hackaton",
   "BasePath": "_content/frontend_hackaton",
   "Mode": "Default",
@@ -49,6 +49,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\frontend_hackaton.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\COLORS.css",
+      "SourceId": "frontend_hackaton",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\",
+      "BasePath": "_content/frontend_hackaton",
+      "RelativePath": "css/COLORS.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\COLORS.css"
+    },
+    {
+      "Identity": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\COLORS_fallback.css",
+      "SourceId": "frontend_hackaton",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\",
+      "BasePath": "_content/frontend_hackaton",
+      "RelativePath": "css/COLORS_fallback.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\COLORS_fallback.css"
     },
     {
       "Identity": "C:\\Users\\mateu\\Documents\\GitHub\\hackaton_frontend\\hackaton\\wwwroot\\css\\landpage.css",

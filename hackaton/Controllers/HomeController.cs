@@ -112,7 +112,8 @@ namespace hackaton.Controllers
             HttpContext.Session.SetString("SessionId", user.CPF);
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("CPF", user.CPF);
-            return View("SucessRegister",user);
+            //return View("SucessRegister",user);
+            return RedirectToAction("Index", "Client");
         }
 
         public IActionResult SucessRegister() {
