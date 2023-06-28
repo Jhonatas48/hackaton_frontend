@@ -147,8 +147,10 @@ namespace hackaton.Controllers
         [HttpPost, ActionName("Delete")]
         [ServiceFilter(typeof(RequireLoginAdminAttributeFactory))]
        // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(User pageUser)//(int id)
         {
+            int id = pageUser.Id;   // ????????
+
             string cpf = HttpContext.Session.GetString("CPF");
             var users = await ApiRequest.getUsers(cpf);
             User userAdmin = users.FirstOrDefault();

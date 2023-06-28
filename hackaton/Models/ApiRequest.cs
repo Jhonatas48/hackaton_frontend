@@ -83,6 +83,9 @@ namespace hackaton.Models
         {
             HttpResponseMessage response = await SendHttpRequest("/Client/Delete", HttpMethod.Post, user);
 
+            //HttpResponseMessage response = await SendHttpRequest("/Client/Delete", HttpMethod.Post, user.Id);
+
+
             if (!response.IsSuccessStatusCode)
             {
                 return null;

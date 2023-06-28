@@ -1,21 +1,22 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-:root {
-    --color_primary: #ffa500;
-    --color_primary_inv: #FFFFFF;
-    --color_secondary: #FFE6BF;
-    --color_secondary_inv: #636C79;
-    --bg-color: #F1F2F4;
-    --color_danger: #000000; /*#C61A09*/
-    --color_danger_inv: #FFFFFF;
-}
+/* precisa puxar o colors_fallback.css e o colors.css em seguida */
+@import url('COLORS_fallback.css');
+@import url('COLORS.css'); /* deveria sofrer uma sobrescrita se possuir valores válidos */
+
+
 
 .text_primary {
-    color: #0;
+    color: var(--text_primary);
 }
 
 .text_secondary {
-    color: #ffa500;
+    color: var(--color_primary);
+    transition: 0.2s;
+}
+
+.text_secondary:hover {
+    color: var(--color_secondary_hover);
 }
 
 html, body {
@@ -35,21 +36,21 @@ a {
     text-decoration: none;
 }
 
-    a:link {
-        text-decoration: none;
-    }
+a:link {
+    text-decoration: none;
+}
 
-    a:visited {
-        text-decoration: none;
-    }
+a:visited {
+    text-decoration: none;
+}
 
-    a:hover {
-        text-decoration: none;
-    }
+a:hover {
+    text-decoration: none;
+}
 
-    a:active {
-        text-decoration: none;
-    }
+a:active {
+    text-decoration: none;
+}
 
 .main_container {
     /*   background-color: var(--bg-color); */
@@ -103,22 +104,19 @@ a {
 }
 
 .main_card {
-    background-color: #000000;
-    padding: 20px;
-    /* Auto layout */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     align-content: space-around;
-    padding: 24px 24px 28px;
+    padding: 24px;
     gap: 48px;
     isolation: isolate;
     width: fit-content;
     max-width: 75%;
     height: fit-content;
-    background: #FFFFFF;
+    background: var(--color_primary_inv);
     /* 🌞 Ring-1 [Light]/1px gray-200 | shadow-xl */
-    box-shadow: 0px 18px 22px -4px rgba(13, 16, 23, 0.08), 0px 8px 10px -6px rgba(13, 16, 23, 0.04), inset 0px 0px 0px 1px #E0E3E6;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
     border-radius: 8px;
 }
 
@@ -136,9 +134,10 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.6em;
+    gap: 0.5em;
     text-align: left;
     width: fit-content;
+    user-select: none;
     height: auto;
 }
 
@@ -155,7 +154,7 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5em;
+    gap: 24px;
     width: fit-content;
     height: auto;
 }
@@ -164,11 +163,11 @@ a {
     /* Inter Medium/14 Text sm */
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     line-height: 20px;
     /* System colors/Gray/700 */
-    color: #2F3641;
+    color: var(--text_primary);
 }
 
 .input {
@@ -180,8 +179,8 @@ a {
     gap: 1em;
     min-width: 368px;
     height: auto;
-    background: #FFFFFF;
-    border: 1px solid #CDD1D6;
+    background: var(--color_primary_inv);
+    border: 1px solid var(--input_border_color);
     box-shadow: 0px 1px 2px rgba(13, 16, 23, 0.06);
     border-radius: 8px;
 }
@@ -201,8 +200,8 @@ a {
     box-sizing: border-box;
     width: 0.9em;
     height: 0.9em;
-    background: #FFFFFF;
-    border: 1px solid #99A0A8;
+    background: var(--color_primary_inv);
+    border: 1px solid var(--input_border_color);
     border-radius: 4px;
 }
 
@@ -221,7 +220,7 @@ a {
     font-weight: 400;
     font-size: 40px;
     line-height: 46px;
-    color: #000000;
+    color: var(--text_primary);
     text-align: center;
 }
 
@@ -238,13 +237,13 @@ a {
     /* Inter Medium/20 Text xl */
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.2em;
     line-height: 30px;
     /* or 150% */
     /*   text-align: center; <- should inherit from "leading"*/
     /* System colors/Gray/900 */
-    color: #0D1017;
+    color: var(--text_primary);
 }
 
 .detail {
@@ -258,12 +257,7 @@ a {
     /* identical to box height, or 143% */
     /*   text-align: center; <- should inherit from "leading"*/
     /* System colors/Gray/500 */
-    color: #636C79;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 3;
-  align-self: stretch;
-  flex-grow: 0; */
+    color: var(--text_secondary);
 }
 
 .actions {
@@ -276,12 +270,6 @@ a {
     gap: 14px;
     width: 100%;
     height: 100%;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  z-index: 1; */
 }
 
 .btn-override {
@@ -293,7 +281,7 @@ a {
     align-items: center;
     padding: 10px 18px;
     gap: 8px;
-    border: 1px solid #00000000;
+    border: 1px solid;  /*color?*/
     width: 100%;
     /* font config */
     font-family: 'Inter';
@@ -310,23 +298,26 @@ a {
 .primary-color-override {
     background: var(--color_primary);
     color: var(--color_primary_inv);
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .primary-color-override:hover {
-    border-color: var(--color_primary);
     background: var(--color_primary_inv);
-    color: var(--color_primary);
+    color: var(--color_primary_hover);
+    border-color: var(--color_primary_hover);
 }
 
 .secondary-color-override {
     background: var(--color_secondary);
     color: var(--color_secondary_inv);
+    transition: 0.2s;
 }
 
 .secondary-color-override:hover {
-    border-color: var(--color_secondary);
+    border-color: var(--color_secondary_hover);
     background: var(--color_secondary_inv);
-    color: var(--color_secondary);
+    color: var(--color_secondary_hover);
 }
 
 /* inútil? */
@@ -337,6 +328,7 @@ div[data-cluster="btn1"]:has(input) {
 .env {
     display: flex;
     justify-content: space-between;
+    transition: 0.2s;
 }
 
 .sub {
@@ -347,7 +339,8 @@ div[data-cluster="btn1"]:has(input) {
 
 .env-margin {
     box-sizing: border-box;
-    outline: 2px solid black;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    transition: 0.2s;
 }
 
 input[data-cluster="btn1"], input[data-cluster="btn1"]:focus, input[data-cluster="btn1"]:active {
@@ -378,6 +371,7 @@ input[data-cluster="btn1"], input[data-cluster="btn1"]:focus, input[data-cluster
 }
 
 .eye {
+    cursor: pointer;
     background-image: url(https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/visibility_off_FILL0_wght400_GRAD0_opsz48.svg);
 }
 
@@ -391,7 +385,7 @@ input[data-cluster="btn1"], input[data-cluster="btn1"]:focus, input[data-cluster
 }
 
 .home-orange {
-    background-image: url(https://raw.githubusercontent.com/WarmMateTea/ImageRepo/6520d5faa5879ec0c4ad8c21438f18a2346d6d2f/home_material_orange.svg);
+    background-image: url(https://raw.githubusercontent.com/WarmMateTea/ImageRepo/6520d5faa5879ec0c4ad8c21438f18a2346d6d2f/home_material_white.svg);
 }
 
 /*.home {
@@ -457,14 +451,17 @@ div.btn:hover .home {
 }
 
 .danger-color-override {
-    background: var(--color_danger);
-    color: var(--color_danger_inv);
+    background: var(--color_primary_inv);
+    color: var(--color_primary);
+    border: 1px solid var(--color_primary);
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 .danger-color-override:hover {
-    border-color: var(--color_danger);
-    background: var(--color_danger_inv);
-    color: var(--color_danger);
+    border: 1px solid var(--color_danger);
+    color: var(--color_primary_inv);
+    background: var(--color_danger);
 }
 
 /*==============================================================================*/
@@ -475,11 +472,11 @@ div.btn:hover .home {
 .signup {
     min-width: 50%;
     .trailing, .inputs, .env, .textbox {
-    min-width: 100%;
+        min-width: 100%;
     }
 
     .sub {
-    min-width: 80%;
+        min-width: 80%;
     }
 }
 
@@ -508,19 +505,25 @@ div.btn:hover .home {
 
 .halver-env {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: nowrap;
     gap: 1em;
     width: 100%;
 }
 
 .halver-int {
     display: flex;
-    width: 50%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
 }
 
 .half-card {
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+    justify-items: center;
     max-width: 100%;
     width: 100%;
 }
@@ -530,12 +533,82 @@ div.btn:hover .home {
     flex-direction: column;
 }
 
+form {
+    width: 100%;
+    display
+}
+
 .horizontal-flex {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
+
+.vertical-flex {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.textbox {
+    width: 100%;
+    border: none;
+    font-size: 17px;
+}
+
+.textbox:focus {
+    outline-width: 0;
+}
+
+.all-form-items-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#schedule-save {
+    width: 200px;
+    text-align: right;
+    margin-top: 24px;
+}
+
+#description-input {
+    height: 100%;
+}
+
+.start-end-date-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.savebutton-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: right;
+}
+
+#new-schedule {
+    color: black;
+    margin-bottom: 24px;
+}
+
 
 .column-flex {
     width: 100%;
