@@ -12,7 +12,7 @@
                 <div class="title-input-wrapper">
                     <span class="heading">Data de início</span>
                     <div class="input env min-w200 w100" data-cluster="btn1">
-                        <input class="textbox" placeholder="dd/mm/aaaa" asp-for="DataInicial">
+                        <input class="textbox" value="@DateTime.Now.Date" asp-for="DataInicial">
                     </div>
                     <span asp-validation-for="DataInicial" class="detail text-danger-override"></span>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="title-input-wrapper">
                     <span class="heading">Data de término</span>
                     <div class="input env min-w200 w100" data-cluster="btn1">
-                        <input class="textbox" placeholder="dd/mm/aaaa" asp-for="DataFinal">
+                        <input class="textbox" value="@DateTime.Now.Date" asp-for="DataFinal">
                     </div>
                     <span asp-validation-for="DataFinal" class="detail text-danger-override"></span>
                 </div>

@@ -19,7 +19,7 @@
                 <label class="input-description">Nome</label>
                 <div class="input env" data-cluster="btn1">
                     <div class="sub">
-                        <input class="form-control textbox" data-cluster="btn1" placeholder="Alterar nome" value="@Model.Name" asp-for="Name">
+                        <input class="textbox" data-cluster="btn1" placeholder="Alterar nome" value="@Model.Name" asp-for="Name">
                     </div>
                 </div>
                 <span asp-validation-for="Name" class="detail text-danger-override"></span>
@@ -32,7 +32,7 @@
                 <div class="input env" data-cluster="btn1">
                     <div class="sub">
                         <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/vpn_key_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
-                        <input class="form-control textbox" data-cluster="btn1" type="password" placeholder="●●●●●●" asp-for="Password">
+                        <input class="textbox" data-cluster="btn1" type="password" placeholder="●●●●●●" asp-for="Password">
                     </div>
                     <div class="icon eye"></div>
                 </div>
@@ -46,14 +46,14 @@
                 <div class="input env" data-cluster="btn1">
                     <div class="sub">
                         <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/badge_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
-                        <input class="cpf form-control textbox" data-cluster="btn1" placeholder="123.456.789-00" asp-for="CPF">
+                        <input class="cpf textbox" data-cluster="btn1" placeholder="123.456.789-00" asp-for="CPF">
                     </div>
                     <div class="icon checkmark"></div>
                 </div>
                 <span asp-validation-for="CPF" class="ver-cpf detail text-danger-override"></span>
             </div>
 
-            <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
+            <input class="textbox" data-cluster="btn1" asp-for="Id" hidden>
 
             <input type="checkbox" checked="@Model.IsAdmin" asp-for="IsAdmin"/> Admin
 
@@ -65,11 +65,11 @@
 
             <input asp-controller="Users" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
 
-            @*Botão de Excluir (AJAX)*@
+            @*Botão de Excluir (ASP)*@
 
-            <div id="DeleteUser" class="btn btn-danger btn-override danger-color-override">
-                <label>Excluir Perfil</label>
-            </div>
+            <button type="button" class="btn btn-danger btn-override danger-color-override" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                Excluir Perfil
+            </button>
 
         </div>
 

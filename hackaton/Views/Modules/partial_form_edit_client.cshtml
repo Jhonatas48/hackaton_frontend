@@ -20,7 +20,7 @@
                 <label class="input-description">Nome</label>
                 <div class="input env" data-cluster="btn1">
                     <div class="sub">
-                        <input class="form-control textbox" data-cluster="btn1" placeholder="Alterar nome" value="@Model.Name" asp-for="Name">
+                        <input class="textbox" data-cluster="btn1" placeholder="Alterar nome" value="@Model.Name" asp-for="Name">
                     </div>
                 </div>
                 <span asp-validation-for="Name" class="detail text-danger-override"></span>
@@ -33,7 +33,7 @@
                 <div class="input env" data-cluster="btn1">
                     <div class="sub">
                         <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/vpn_key_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
-                        <input class="form-control textbox" data-cluster="btn1" type="password" placeholder="●●●●●●" asp-for="Password">
+                        <input class="textbox" data-cluster="btn1" type="password" placeholder="●●●●●●" asp-for="Password">
                     </div>
                     <div class="icon eye"></div>
                 </div>
@@ -42,19 +42,22 @@
 
             @*<partial name="~/Views/Modules/partial_textbox_cpf_readonly.cshtml" model='new VM.VM_textbox { User = Model }' />*@
 
-            <label class="input-description">CPF</label>
-            <div class="input env" data-cluster="btn1">
-                <div class="sub">
-                    <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/badge_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
-                    <span class="textbox" data-cluster="btn1" placeholder="123.456.789-00">@Model.CPF</span>
+            <div class="form-group" style="min-width:100%">
+                <label class="input-description">CPF</label>
+                <div class="input env" data-cluster="btn1">
+                
+                    <div class="sub">
+                        <img src="https://raw.githubusercontent.com/WarmMateTea/ImageRepo/f85728639824166be9728567f69f6f2289494d2e/badge_FILL0_wght400_GRAD0_opsz48.svg" class="icon"></img>
+                        <span class="textbox" data-cluster="btn1" placeholder="123.456.789-00">@Model.CPF</span>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group" style="min-width:100%">
-                <input type="hidden" class="form-control" name="CPF" value="@Model.CPF" asp-for="CPF" />
+                <input type="hidden" class="" name="CPF" value="@Model.CPF" asp-for="CPF" />
             </div>
 
-            <input class="form-control textbox" data-cluster="btn1" asp-for="Id" hidden>
+            <input class="textbox" data-cluster="btn1" asp-for="Id" hidden>
 
             <input type="checkbox" checked="@Model.IsAdmin" asp-for="IsAdmin" hidden/>
 
@@ -66,11 +69,10 @@
 
             <input asp-controller="Client" asp-action="Edit" type="submit" class="btn btn-primary btn-override primary-color-override" value="Salvar alterações">
 
-            @*Botão de Excluir (AJAX)*@
-
-            <div id="DeleteClient" class="btn btn-danger btn-override danger-color-override">
-                <label>Excluir Perfil</label>
-            </div>
+            @*Botão de Excluir (APT)*@
+            <button type="button" class="btn btn-danger btn-override danger-color-override" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                Excluir Perfil
+            </button>
 
         </div>
 

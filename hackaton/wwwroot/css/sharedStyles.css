@@ -1,27 +1,22 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-:root {
-    --color_primary: #ffa500;
-    --color_primary_inv: #FFFFFF;
-    --color_secondary: #FFE6BF;
-    --color_secondary_inv: #636C79;
-    --bg-color: #F1F2F4;
-    --color_danger: #000000; /*#C61A09*/
-    --color_danger_inv: #FFFFFF;
-   
-}
+/* precisa puxar o colors_fallback.css e o colors.css em seguida */
+@import url('COLORS_fallback.css');
+@import url('COLORS.css'); /* deveria sofrer uma sobrescrita se possuir valores válidos */
+
+
 
 .text_primary {
-    color: #0;
+    color: var(--text_primary);
 }
 
 .text_secondary {
-    color: #ffa500;
-    transition: 0.3s;
+    color: var(--color_primary);
+    transition: 0.2s;
 }
 
 .text_secondary:hover {
-    color: #ff8b28;
+    color: var(--color_secondary_hover);
 }
 
 html, body {
@@ -41,21 +36,21 @@ a {
     text-decoration: none;
 }
 
-    a:link {
-        text-decoration: none;
-    }
+a:link {
+    text-decoration: none;
+}
 
-    a:visited {
-        text-decoration: none;
-    }
+a:visited {
+    text-decoration: none;
+}
 
-    a:hover {
-        text-decoration: none;
-    }
+a:hover {
+    text-decoration: none;
+}
 
-    a:active {
-        text-decoration: none;
-    }
+a:active {
+    text-decoration: none;
+}
 
 .main_container {
     /*   background-color: var(--bg-color); */
@@ -109,8 +104,6 @@ a {
 }
 
 .main_card {
-    background-color: #000000;
-    /* Auto layout */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -121,7 +114,7 @@ a {
     width: fit-content;
     max-width: 75%;
     height: fit-content;
-    background: #FFFFFF;
+    background: var(--color_primary_inv);
     /* 🌞 Ring-1 [Light]/1px gray-200 | shadow-xl */
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
     border-radius: 8px;
@@ -174,7 +167,7 @@ a {
     font-size: 14px;
     line-height: 20px;
     /* System colors/Gray/700 */
-    color: #9A9CA3;
+    color: var(--text_primary);
 }
 
 .input {
@@ -186,8 +179,8 @@ a {
     gap: 1em;
     min-width: 368px;
     height: auto;
-    background: #FFFFFF;
-    border: 1px solid #CDD1D6;
+    background: var(--color_primary_inv);
+    border: 1px solid var(--input_border_color);
     box-shadow: 0px 1px 2px rgba(13, 16, 23, 0.06);
     border-radius: 8px;
 }
@@ -207,8 +200,8 @@ a {
     box-sizing: border-box;
     width: 0.9em;
     height: 0.9em;
-    background: #FFFFFF;
-    border: 1px solid #99A0A8;
+    background: var(--color_primary_inv);
+    border: 1px solid var(--input_border_color);
     border-radius: 4px;
 }
 
@@ -227,7 +220,7 @@ a {
     font-weight: 400;
     font-size: 40px;
     line-height: 46px;
-    color: #000000;
+    color: var(--text_primary);
     text-align: center;
 }
 
@@ -250,7 +243,7 @@ a {
     /* or 150% */
     /*   text-align: center; <- should inherit from "leading"*/
     /* System colors/Gray/900 */
-    color: #9A9CA3;
+    color: var(--text_primary);
 }
 
 .detail {
@@ -264,12 +257,7 @@ a {
     /* identical to box height, or 143% */
     /*   text-align: center; <- should inherit from "leading"*/
     /* System colors/Gray/500 */
-    color: #9A9CA3;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 3;
-  align-self: stretch;
-  flex-grow: 0; */
+    color: var(--text_secondary);
 }
 
 .actions {
@@ -282,12 +270,6 @@ a {
     gap: 14px;
     width: 100%;
     height: 100%;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  z-index: 1; */
 }
 
 .btn-override {
@@ -299,7 +281,7 @@ a {
     align-items: center;
     padding: 10px 18px;
     gap: 8px;
-    border: 1px solid #00000000;
+    border: 1px solid;  /*color?*/
     width: 100%;
     /* font config */
     font-family: 'Inter';
@@ -317,22 +299,25 @@ a {
     background: var(--color_primary);
     color: var(--color_primary_inv);
     cursor: pointer;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 .primary-color-override:hover {
-    background: #ff8b28;
+    background: var(--color_primary_inv);
+    color: var(--color_primary_hover);
+    border-color: var(--color_primary_hover);
 }
 
 .secondary-color-override {
     background: var(--color_secondary);
     color: var(--color_secondary_inv);
+    transition: 0.2s;
 }
 
 .secondary-color-override:hover {
-    border-color: var(--color_secondary);
+    border-color: var(--color_secondary_hover);
     background: var(--color_secondary_inv);
-    color: var(--color_secondary);
+    color: var(--color_secondary_hover);
 }
 
 /* inútil? */
@@ -343,7 +328,7 @@ div[data-cluster="btn1"]:has(input) {
 .env {
     display: flex;
     justify-content: space-between;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .sub {
@@ -355,7 +340,7 @@ div[data-cluster="btn1"]:has(input) {
 .env-margin {
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 input[data-cluster="btn1"], input[data-cluster="btn1"]:focus, input[data-cluster="btn1"]:active {
@@ -468,15 +453,16 @@ div.btn:hover .home {
 .danger-color-override {
     background: var(--color_primary_inv);
     color: var(--color_primary);
-    border: 2px solid var(--color_primary);
+    border: 1px solid var(--color_primary);
     cursor: pointer;
     transition: 0.5s;
 }
 
-    .danger-color-override:hover {
-        border-color: #ff8b28;
-        color: #ff8b28;
-    }
+.danger-color-override:hover {
+    border: 1px solid var(--color_danger);
+    color: var(--color_primary_inv);
+    background: var(--color_danger);
+}
 
 /*==============================================================================*/
 /* + Cadastro (Produtor) */
@@ -486,11 +472,11 @@ div.btn:hover .home {
 .signup {
     min-width: 50%;
     .trailing, .inputs, .env, .textbox {
-    min-width: 100%;
+        min-width: 100%;
     }
 
     .sub {
-    min-width: 80%;
+        min-width: 80%;
     }
 }
 

@@ -46,14 +46,14 @@ namespace hackaton.Controllers
         }
 
         // GET, recebe o User da página em forma de JSON, remonta o User, e usa o ApiRequest para solicitar a deleção ao Back
-        public async Task<IActionResult> Delete([FromBody] JObject userData)
+        public async Task<IActionResult> Delete(User user)//([FromBody] JObject userData)
         {
             try
             {
-                User user = userData.ToObject<User>();
+                //User user = userData.ToObject<User>();
 
                 user = await ApiRequest.deleteUserLogged(user);
-                if (User != null)
+                if (User == null)
                 {
                     return RedirectToAction("Logout");
                 }

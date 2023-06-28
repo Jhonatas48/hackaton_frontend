@@ -7,6 +7,7 @@
 }
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/sharedStyles.css" type="text/css" />
 </head>
 
@@ -27,22 +28,30 @@
     </div>
 </div>
 
-<!-- Modal de confirmação -->
-<div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tem certeza?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="confirmModalLabel">Tem certeza?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente excluir o usuário?</p>
+                Deseja realmente excluir o usuário?
             </div>
-            <div class="modal-footer">
-                <button id="fecharModal" type="button" class="btn btn-secondary btn-override" data-dismiss="modal">Fechar</button>
-                <button id="confirmarExclusao" type="button" class="btn btn-danger btn-override danger-color-override">Excluir</button>
+            <div class="modal-footer" style="display: flex; flex-direction: row; justify-content: space-around;">
+                <button id="fecharModal" type="button" class="btn btn-primary btn-override primary-color-override" style="width: 45%" data-bs-dismiss="modal">Fechar</button>
+                <form asp-action="Delete" asp-controller="Client" method="post" style="width: 45%">
+                    
+                    @Html.HiddenFor(m => m.Active)
+                    @Html.HiddenFor(m => m.CPF)
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.IsAdmin)
+                    @Html.HiddenFor(m => m.Name)
+                    @Html.HiddenFor(m => m.Password)
+
+                    <button id="confirmarExclusao" type="submit" class="btn btn-danger btn-override danger-color-override">Excluir</button>
+                </form>
             </div>
         </div>
     </div>
@@ -59,35 +68,4 @@
 <script src="/js/module-home-hover.js"></script>
 <script src="/_framework/aspnetcore-browser-refresh.js"></script>
 
-
-<script>
-    $(document).ready(function () {
-        // Evento de clique no botão "Excluir"
-        $('#DeleteClient').click(function () {
-            $('#confirmModal').modal('show'); // Abre o modal de confirmação
-        });
-
-        // Evento de clique no botão "Excluir" do modal
-        $('#confirmarExclusao').click(function () {
-            var user = @Model; /* Obtenha o ID do usuário a partir do Model da página */;
-            var userData = JSON.stringify(user);
-            console.log(userData);
-
-            // Chamada AJAX para o método DeleteClient
-            $.ajax({
-                url: '/ClientController/DeleteClient',
-                type: 'POST',
-                data: userData,
-                contentType: 'application/json',
-                success: function (response) {
-                    // Lógica para tratar a resposta da exclusão, se necessário
-                    //window.location.href = '/Client/Logout'; <- vou colocar o redirect direto no código em caso de sucesso, pra evitar tampering
-                    //$('#confirmModal').modal('hide'); // Fecha o modal após a exclusão
-                },
-                error: function (xhr, status, error) {
-                    console.log(error, status, xhr);
-                }
-            });
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

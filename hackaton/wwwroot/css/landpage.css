@@ -1,12 +1,8 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-:root {
-    --color_primary: #ffa500;
-    --color_primary_inv: #FFFFFF;
-    --color_secondary: #FFE6BF;
-    --color_secondary_inv: #636C79;
-    --bg-color: #F1F2F4;
-}
+/* precisa puxar o colors_fallback.css e o colors.css em seguida */
+@import url('COLORS_fallback.css');
+@import url('COLORS.css');  /* deveria sofrer uma sobrescrita se possuir valores válidos */
 
 a {
     text-decoration: none;
@@ -29,11 +25,11 @@ a:active {
 }
 
 .text_primary {
-    color: #0;
+    color: var(--text_primary);
 }
 
 .text_secondary {
-    color: #ffa500;
+    color: var(--color_primary);
 }
 
 html, body {
@@ -62,7 +58,6 @@ html, body {
 }
 
 .main_card {
-    background-color: #000000;
     padding: 20px;
     /* Auto layout */
     display: flex;
@@ -75,7 +70,7 @@ html, body {
     width: fit-content;
     max-width: 75%;
     height: fit-content;
-    background: #FFFFFF;
+    background: var(--color_primary_inv);
     /* 🌞 Ring-1 [Light]/1px gray-200 | shadow-xl */
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
     border-radius: 8px;
@@ -111,7 +106,7 @@ html, body {
     font-weight: 400;
     font-size: 40px;
     line-height: 46px;
-    color: #000000;
+    color: var(--text_primary);
     text-align: center;
     /* Inside auto layout */
     /* flex: none;
@@ -138,14 +133,7 @@ flex-grow: 0; */
     /* or 150% */
     text-align: center;
     /* System colors/Gray/900 */
-    color: #9A9CA3;
-{
-}
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 2;
-  align-self: stretch;
-  flex-grow: 0; */
+    color: var(--text_primary);
 } 
 
 .detail {
@@ -156,15 +144,8 @@ flex-grow: 0; */
     font-weight: 600;
     font-size: 0.8em;
     line-height:;
-    /* identical to box height, or 143% */
     text-align: center;
-    /* System colors/Gray/500 */
-    color: #9A9CA3;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 3;
-  align-self: stretch;
-  flex-grow: 0; */
+    color: var(--text_secondary);
 }
 
 .actions {
@@ -177,12 +158,6 @@ flex-grow: 0; */
     gap: 14px;
     width: 100%;
     height: 100%;
-    /* Inside auto layout */
-    /*   flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  z-index: 1; */
 }
 
 .btn-override {
@@ -209,20 +184,21 @@ flex-grow: 0; */
     color: var(--color_primary);
     border-color: #ffa500;
     border-width: 2px;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
-    .primary-color-override:hover {
-        color: #ff8b28;
-        border-color: #ff8b28;
-    }
+.primary-color-override:hover {
+    background: var(--bg-color);
+    color: var(--color_primary_hover);
+    border-color: var(--color_primary_hover);
+}
 
 .secondary-color-override {
-    background: #ffa500;
+    background: var(--color_primary);
     color: var(--color_primary_inv);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
-    .secondary-color-override:hover {
-        background: #ff8b28;
-    }
+.secondary-color-override:hover {
+    background: var(--color_secondary_hover);
+}
